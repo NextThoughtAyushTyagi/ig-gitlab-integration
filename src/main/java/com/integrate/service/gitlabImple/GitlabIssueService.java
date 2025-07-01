@@ -11,7 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class GitlabIssueService implements IssueService {
-    private static final String  PRIVATE_TOKEN = "glpat-o2-M3y2zbKTWwqfWbs_X";
+//    private static final String  PRIVATE_TOKEN = "glpat-o2-M3y2zbKTWwqfWbs_X";
+    private static final String  PRIVATE_TOKEN = "";
     private static final String  GITLAB_API_URL_CREATE = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     private static final String  GITLAB_API_URL_FETCH = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     @Override
