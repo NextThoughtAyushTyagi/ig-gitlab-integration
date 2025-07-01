@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class GitlabIssueService implements IssueService {
-    private static final String  KEY = "";
+    private static final String  PRIVATE_TOKEN = "glpat-o2-M3y2zbKTWwqfWbs_X";
     private static final String  GITLAB_API_URL_CREATE = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     private static final String  GITLAB_API_URL_FETCH = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     @Override
@@ -19,7 +19,7 @@ public class GitlabIssueService implements IssueService {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("PRIVATE-TOKEN", KEY);
+        headers.set("PRIVATE-TOKEN", PRIVATE_TOKEN);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
@@ -47,7 +47,7 @@ public class GitlabIssueService implements IssueService {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("PRIVATE-TOKEN", KEY);
+        headers.set("PRIVATE-TOKEN", PRIVATE_TOKEN);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
