@@ -18,6 +18,7 @@ public class GitlabController {
     IssueService issueService;
     @PostMapping("/create-issue")
     ResponseEntity<String> createGitLabIssue(@RequestBody GitlabIssueAttributes gitlabIssueAttributes){
+        System.out.println("Inside createGitLabIssue  :::::");
         System.out.println("gitlabIssueAttributes getTitle ------ "+gitlabIssueAttributes.getTitle());
         System.out.println("gitlabIssueAttributes getDescription ------ "+gitlabIssueAttributes.getDescription());
         System.out.println("gitlabIssueAttributes getProjectId ------ "+gitlabIssueAttributes.getProjectId());
@@ -25,5 +26,4 @@ public class GitlabController {
         System.out.println("gitLabResponse --->>>>>> "+gitLabResponse);
          return ResponseEntity.status(HttpStatus.CREATED).body("Ticket Created");
     }
-
 }
