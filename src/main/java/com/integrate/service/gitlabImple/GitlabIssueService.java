@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class GitlabIssueService implements IssueService {
-    private static final String  PRIVATE_TOKEN = "glpat-o2-M3y2zbKTWwqfWbs_X";
+    private static final String  PRIVATE_TOKEN = "gitlab private token";
     private static final String  GITLAB_API_URL_CREATE = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     private static final String  GITLAB_API_URL_FETCH = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     private static final String  GITLAB_API_URL_FETCH_ID = "https://gitlab.com/api/v4/projects/{projectId}/issues/{ticketId}";
