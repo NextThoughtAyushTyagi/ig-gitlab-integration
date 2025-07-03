@@ -12,7 +12,7 @@ import java.util.Map;
 public class ChatGptService {
 
     private final WebClient webClient;
-    
+
     public ChatGptService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("https://api.openai.com/v1").build();
     }
@@ -27,7 +27,7 @@ public class ChatGptService {
 
         return this.webClient.post()
                 .uri("/chat/completions")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + OPENAI_API_KEY)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + "OPENAI_API_KEY")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .bodyValue(message)
                 .retrieve()
