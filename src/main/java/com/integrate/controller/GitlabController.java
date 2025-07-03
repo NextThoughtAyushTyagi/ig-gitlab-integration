@@ -5,10 +5,7 @@ import com.integrate.service.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/gitlab")
@@ -23,7 +20,15 @@ public class GitlabController {
         System.out.println("gitlabIssueAttributes getProjectId ------ "+gitlabIssueAttributes.getProjectId());
         String gitLabResponse = issueService.createIssue(gitlabIssueAttributes);
         System.out.println("gitLabResponse --->>>>>> "+gitLabResponse);
-         return ResponseEntity.status(HttpStatus.CREATED).body("Ticket Created");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Ticket Created");
+    }
+
+    @GetMapping("/fetch-issue/{projectId}/{ticketId}")
+    ResponseEntity<String> fetchGitlabIssue(@PathVariable("projectId") String projectId,@PathVariable("ticketId") String ticketId){
+        System.out.println("gitlabIssueAttributes ticketId ------ "+ticketId);
+        System.out.println("gitlabIssueAttributes projectId ------ "+projectId);
+        String gitLabResponse = issueService.fetchIssue(projectId,ticketId);
+        return ResponseEntity.status(HttpStatus.OK).body(gitLabResponse);
     }
 
 }
