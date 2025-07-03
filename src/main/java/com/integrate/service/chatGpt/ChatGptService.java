@@ -12,8 +12,7 @@ import java.util.Map;
 public class ChatGptService {
 
     private final WebClient webClient;
-    private final String OPENAI_API_KEY = "open ai key";
-
+    
     public ChatGptService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("https://api.openai.com/v1").build();
     }
