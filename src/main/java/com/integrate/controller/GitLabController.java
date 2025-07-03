@@ -1,7 +1,7 @@
 package com.integrate.controller;
 
-import com.integrate.pojo.GitlabIssueAttributes;
-import com.integrate.service.IssueService;
+import com.integrate.pojo.gitlab.GitlabIssueAttributes;
+import com.integrate.service.GitLabIssueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/gitlab")
-public class GitlabController {
+public class GitLabController {
 
     @Autowired
-    IssueService issueService;
+    GitLabIssueService issueService;
+
     @PostMapping("/create-issue")
     ResponseEntity<String> createGitLabIssue(@RequestBody GitlabIssueAttributes gitlabIssueAttributes){
         System.out.println("Inside createGitLabIssue  :::::");

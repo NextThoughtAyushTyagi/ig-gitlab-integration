@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class IgGitlabIntegrationApplication {
+public class IgGitLabIntegrationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(IgGitlabIntegrationApplication.class, args);
+		SpringApplication.run(IgGitLabIntegrationApplication.class, args);
 	}
 
 }

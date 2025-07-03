@@ -1,4 +1,4 @@
-package com.integrate.pojo;
+package com.integrate.pojo.gitlab;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -13,7 +13,4 @@ public class Issue {
     private int iid;
     private String title;
     private String description;
-
-
-
 }

@@ -1,4 +1,4 @@
-package com.integrate.pojo;
+package com.integrate.pojo.gitlab;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

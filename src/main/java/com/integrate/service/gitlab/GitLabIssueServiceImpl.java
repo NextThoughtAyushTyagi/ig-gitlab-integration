@@ -1,11 +1,9 @@
-package com.integrate.service.gitlabImple;
+package com.integrate.service.gitlab;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.integrate.pojo.GitlabIssueAttributes;
-import com.integrate.pojo.Issue;
-import com.integrate.service.IssueService;
+import com.integrate.pojo.gitlab.GitlabIssueAttributes;
+import com.integrate.pojo.gitlab.Issue;
+import com.integrate.service.GitLabIssueService;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,7 +15,7 @@ import java.util.regex.Pattern;
 
 
 @Service
-public class GitlabIssueService implements IssueService {
+public class GitLabIssueServiceImpl implements GitLabIssueService {
     private static final String  PRIVATE_TOKEN = "gitlab private token";
     private static final String  GITLAB_API_URL_CREATE = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     private static final String  GITLAB_API_URL_FETCH = "https://gitlab.com/api/v4/projects/{projectId}/issues";

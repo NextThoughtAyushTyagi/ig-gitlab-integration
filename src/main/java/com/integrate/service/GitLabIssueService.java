@@ -1,9 +1,8 @@
 package com.integrate.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.integrate.pojo.GitlabIssueAttributes;
+import com.integrate.pojo.gitlab.GitlabIssueAttributes;
 
-public interface IssueService {
+public interface GitLabIssueService {
      String createIssue(GitlabIssueAttributes gitlabIssueAttributes);
      String fetchIssue(String projetId,String ticketId);
 }
