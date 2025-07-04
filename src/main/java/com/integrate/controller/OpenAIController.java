@@ -31,7 +31,7 @@ public class OpenAIController {
             String userMessage = request.get("userMessage");
             return openAiService.generateJsonLogic(userMessage);
         } catch (IOException e) {
-            e.printStackTrace();  // will use a logger to log the error
+            e.printStackTrace();  // later We will use a log.error()
             return "Error occurred while generating JSON Logic";
         }
     }
