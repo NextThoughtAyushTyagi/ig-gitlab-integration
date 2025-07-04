@@ -1,5 +1,6 @@
 package com.integrate.controller;
 
+import com.integrate.response.ApiResponse;
 import com.integrate.service.openAi.OpenAiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +26,14 @@ public class OpenAIController {
     }
 
     @PostMapping("/generateJsonLogic")
-    public String generateJsonLogic(@RequestBody Map<String, String> request)  throws Exception{
+    public ResponseEntity generateJsonLogic(@RequestBody Map<String, String> request)  throws Exception{
         try {
             // for proper respopnse format need to implement the common Response class with :- status,code,message & object
             String userMessage = request.get("userMessage");
-            return openAiService.generateJsonLogic(userMessage);
+            return openAiService.generateJsonForTheGivenDescription(userMessage);
         } catch (IOException e) {
             e.printStackTrace();  // later We will use a log.error()
-            return "Error occurred while generating JSON Logic";
+            return ResponseEntity.ok(new ApiResponse("ERROR", 500,e.getMessage()));
         }
     }
 }

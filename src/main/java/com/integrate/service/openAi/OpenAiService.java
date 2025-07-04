@@ -3,9 +3,11 @@ package com.integrate.service.openAi;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integrate.pojo.open.ai.OpenAiRequest;
+import com.integrate.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.io.IOException;
@@ -68,7 +70,7 @@ public class OpenAiService {
                 })
                 .block();
     }
-    public String generateJsonLogic(String userMessage) throws Exception {
+    public ResponseEntity generateJsonForTheGivenDescription(String userMessage) throws Exception {
         String generatedJsonLogic = null;
         try {
             OpenAiRequest.Message message1 = new OpenAiRequest.Message();
@@ -86,29 +88,37 @@ public class OpenAiService {
             String jsonStringRequest = requestObjectMapper.writeValueAsString(request);
             System.out.println("jsonPayload jsonPayload jsonPayload :::::"+jsonStringRequest);
             String jsonStringResponse = callOpenAiApi(jsonStringRequest);
+            String ERROR_CASE= "ERROR";
             // fetching the generated jsonLogic
-            ObjectMapper responseObjectMapper= new ObjectMapper();
-            try {
-                // Parse the JSON string into a JsonNode
-                JsonNode rootNode = responseObjectMapper.readTree(jsonStringResponse);
-                JsonNode choicesNode = rootNode.path("choices");
-                if (choicesNode.isArray() && choicesNode.size() > 0) {
-                    JsonNode messageNode = choicesNode.get(0).path("message");
-                    generatedJsonLogic = messageNode.path("content").asText();
-                    // generated json Logic
-                    System.out.println("generatedJsonLogic: " + generatedJsonLogic);
+            if(jsonStringResponse!=null) {
+                if (jsonStringResponse.equals(ERROR_CASE)) {
+                    return ResponseEntity.ok(new ApiResponse("ERROR", 500, "Failed to fetch the Json Logic"));
                 } else {
-                    System.out.println("No choices found.");
+                    ObjectMapper responseObjectMapper = new ObjectMapper();
+                    try {
+                        // Parse the JSON string into a JsonNode
+                        JsonNode rootNode = responseObjectMapper.readTree(jsonStringResponse);
+                        JsonNode choicesNode = rootNode.path("choices");
+                        if (choicesNode.isArray() && choicesNode.size() > 0) {
+                            JsonNode messageNode = choicesNode.get(0).path("message");
+                            generatedJsonLogic = messageNode.path("content").asText();
+                            // generated json Logic
+                            System.out.println("generatedJsonLogic: " + generatedJsonLogic);
+                        } else {
+                            System.out.println("No choices found.");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return ResponseEntity.ok(new ApiResponse("ERROR", 500, e.getMessage()));
+                    }
+                    System.out.println("jsonStringResponse jsonStringResponse :::::" + jsonStringResponse);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            System.out.println("jsonStringResponse jsonStringResponse :::::"+jsonStringResponse);
         }catch (Exception e) {
-           e.printStackTrace(); // later add the log.error()
-           throw new IOException("Exception in fetchDataForLeadSanction : ", e);
+            e.printStackTrace(); // later add the log.error()
+            return ResponseEntity.ok(new ApiResponse("ERROR", 500,e.getMessage()));
         }
-        return generatedJsonLogic;
+        return ResponseEntity.ok(new ApiResponse("SUCCESS", 200,"Json Logic generated successfully",generatedJsonLogic));
     }
 
     String callOpenAiApi(String jsonStringRequest) throws Exception{
@@ -134,6 +144,7 @@ public class OpenAiService {
                 return null;
             }
         }catch (IOException e) {
+            jsonResponse = "ERROR";
             e.printStackTrace(); // later add the log.error()
         }
         return jsonResponse;

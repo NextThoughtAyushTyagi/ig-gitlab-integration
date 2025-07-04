@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class GitLabIssueServiceImpl implements GitLabIssueService {
-    private static final String  PRIVATE_TOKEN = "gitlab private token";
+    private static final String  PRIVATE_TOKEN = "";
     private static final String  GITLAB_API_URL_CREATE = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     private static final String  GITLAB_API_URL_FETCH = "https://gitlab.com/api/v4/projects/{projectId}/issues";
     private static final String  GITLAB_API_URL_FETCH_ID = "https://gitlab.com/api/v4/projects/{projectId}/issues/{ticketId}";
@@ -82,6 +82,40 @@ public class GitLabIssueServiceImpl implements GitLabIssueService {
             return stringResponse;
         } catch (Exception e) {
             //  return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed: " + e.getMessage());
+            e.printStackTrace();
+            return "Error";
+        }
+    }
+    @Override
+    public String fetchDescriptionFromGitlabTicket (String projetId,String ticketId){
+        String extracted= null;
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("PRIVATE-TOKEN", PRIVATE_TOKEN);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    GITLAB_API_URL_FETCH_ID,
+                    HttpMethod.GET,
+                    request,
+                    String.class,
+                    projetId,
+                    ticketId);
+            String stringResponse =  response.getBody();
+            ObjectMapper mapper = new ObjectMapper();
+            Issue issue = mapper.readValue(stringResponse, Issue.class);
+            System.out.println("issue.getDescription() --->>> "+issue.getDescription());
+            Pattern pattern = Pattern.compile("###(.*?)###");
+            Matcher matcher = pattern.matcher(issue.getDescription());
+            if (matcher.find()) {
+                extracted = matcher.group(1);  // Get the first capture group
+                System.out.println("Extracted text: " + extracted.trim());
+            } else {
+                System.out.println("No match found.");
+            }
+            return extracted;
+        } catch (Exception e) {
             e.printStackTrace();
             return "Error";
         }
