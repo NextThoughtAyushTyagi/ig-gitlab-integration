@@ -1,7 +1,9 @@
 package com.integrate.controller;
 
+import com.integrate.openAI.OpenAIService;
 import com.integrate.response.ApiResponse;
 import com.integrate.service.openAi.OpenAiService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,8 @@ import java.util.Map;
 public class OpenAIController {
 
     private final OpenAiService openAiService;
+    @Autowired
+    OpenAIService openAIService;
 
     public OpenAIController(OpenAiService openAiService) {
         this.openAiService = openAiService;
@@ -35,5 +39,12 @@ public class OpenAIController {
             e.printStackTrace();  // later We will use a log.error()
             return ResponseEntity.ok(new ApiResponse("ERROR", 500,e.getMessage()));
         }
+    }
+
+
+    @GetMapping("/callOpenAI")
+    public ResponseEntity<String> callOpenAI(){
+        openAIService.openAIChatClient();
+        return ResponseEntity.ok("OKAY");
     }
 }
