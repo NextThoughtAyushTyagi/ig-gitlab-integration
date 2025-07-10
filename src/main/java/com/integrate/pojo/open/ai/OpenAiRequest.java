@@ -14,7 +14,7 @@ public class OpenAiRequest {
        // Model class to represent the JSON structure
         private String model;
         private List<Message> messages;
-
+        private Double temperature=0.2;
         // Inner class to represent each message
         public static class Message {
             private String role;
