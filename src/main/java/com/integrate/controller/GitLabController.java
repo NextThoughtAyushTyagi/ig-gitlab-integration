@@ -18,6 +18,9 @@ public class GitLabController {
     GitLabIssueService gitLabIssueService;
 
     @Autowired
+    GitLabIssueService gitLabTool;
+
+    @Autowired
     OpenAiService openAiService;
 
     @PostMapping("/create-issue")
@@ -36,13 +39,18 @@ public class GitLabController {
         System.out.println("gitlabIssueAttributes ticketId ------ "+ticketId);
         System.out.println("gitlabIssueAttributes projectId ------ "+projectId);
         String gitLabResponse = gitLabIssueService.fetchIssue(projectId,ticketId);
+       // String gitLabResponse = gitLabTool.fetchIssue(projectId,ticketId);
         return ResponseEntity.status(HttpStatus.OK).body(gitLabResponse);
     }
 
     @GetMapping("/fetchDescriptionFromGitlabTicket")
     ResponseEntity fetchDescriptionFromGitlabTicket(@RequestParam("projectId") String projectId,@RequestParam("ticketId") String ticketId){
         try {
-            String gitLabResponse = gitLabIssueService.fetchDescriptionFromGitlabTicket(projectId, ticketId);
+            System.out.println("Inside fetch description above mcp tool calling");
+           // String gitLabResponse = gitLabIssueService.fetchDescriptionFromGitlabTicket(projectId, ticketId);
+             String gitLabResponse = gitLabTool.fetchDescriptionFromGitlabTicket(projectId, ticketId);
+            System.out.println(" after mcp tool calling");
+
             return openAiService.generateJsonForTheGivenDescription(gitLabResponse);
         }catch (Exception e){
             e.printStackTrace();  // later We will use a log.error()
