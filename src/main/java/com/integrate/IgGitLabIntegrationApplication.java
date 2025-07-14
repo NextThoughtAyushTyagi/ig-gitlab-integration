@@ -2,6 +2,7 @@ package com.integrate;
 
 import org.gitlab4j.api.GitLabApi;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +20,11 @@ public class IgGitLabIntegrationApplication {
 	public GitLabApi gitLabClient(@Value("${gitlab.token}") String token,
 								  @Value("${gitlab.base-url}") String baseUrl) {
 		return new GitLabApi(baseUrl, token);
+	}
+
+	@Bean
+	public ChatClient openAiChatClient(OpenAiChatModel chatModel) {
+		return ChatClient.create(chatModel);
 	}
 
 }
