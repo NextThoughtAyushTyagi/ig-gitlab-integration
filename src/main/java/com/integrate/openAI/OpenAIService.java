@@ -1,6 +1,10 @@
 package com.integrate.openAI;
 
 import com.integrate.response.ApiResponse;
+import com.integrate.service.GitLabIssueService;
+import org.gitlab4j.api.GitLabApiException;
+import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.Project;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.openai.OpenAiChatOptions;
@@ -9,8 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class OpenAIService {
+
+	@Autowired
+	GitLabIssueService gitLabIssueService;
 
 	ChatClient.Builder chatClientBuilder;
 
@@ -18,8 +28,16 @@ public class OpenAIService {
 		this.chatClientBuilder = chatClientBuilder;
 	}
 
-	public ResponseEntity fetchJsonLogicViaOpenAI(String prompt) {
+	public ResponseEntity fetchJsonLogicViaOpenAI(String ticketId, String prompt) throws GitLabApiException {
 		System.out.println("inside openAIChatClient --------- ");
+
+		if (!ticketId.isEmpty() && !ticketId.isBlank()) {
+			String issueDescription = gitLabIssueService.fetchDescriptionFromGitlabTicket(Long.valueOf(ticketId));
+			if (!issueDescription.isEmpty() && !issueDescription.isBlank()) {
+				prompt = issueDescription;
+			}
+		}
+
 		ChatClient chatClient = chatClientBuilder.build();
 		OpenAiChatOptions openAiOptions = OpenAiChatOptions.builder()
 				.model("gpt-4o")
@@ -40,7 +58,10 @@ public class OpenAIService {
 				.content();
 
 		System.out.println("Output: " + generatedJsonLogic);
-		return ResponseEntity.ok(new ApiResponse("SUCCESS", 200, "Json Logic generated successfully", generatedJsonLogic));
+		Map<String, String> result = new HashMap<>(2);
+		result.put("prompt", prompt);
+		result.put("jsonLogic", generatedJsonLogic);
+		return ResponseEntity.ok(new ApiResponse("SUCCESS", 200, "Json Logic generated successfully", result));
 
 	}
 }

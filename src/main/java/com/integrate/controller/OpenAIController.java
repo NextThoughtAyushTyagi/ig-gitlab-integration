@@ -44,17 +44,14 @@ public class OpenAIController {
 
     @PostMapping("/fetchJsonLogicViaOpenAI")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity generateJsonForTheGivenDescription(@RequestBody Map<String, String> request)  throws Exception{
+    public ResponseEntity generateJsonForTheGivenDescription(@RequestBody Map<String, String> request) throws Exception {
         try {
+            String ticketId = request.get("ticketId");
             String prompt = request.get("prompt");
-            if (prompt != null && !prompt.isBlank() && !prompt.isEmpty()) {
-                return openAIService.fetchJsonLogicViaOpenAI(prompt);
-            }else {
-                return ResponseEntity.ok(new ApiResponse("ERROR", 400, "Description should not be empty"));
-            }
+            return openAIService.fetchJsonLogicViaOpenAI(ticketId, prompt);
         } catch (Exception e) {
             e.printStackTrace();  // later We will use a log.error()
-            return ResponseEntity.ok(new ApiResponse("ERROR", 500,e.getMessage()));
+            return ResponseEntity.ok(new ApiResponse("ERROR", 500, e.getMessage()));
         }
     }
 }

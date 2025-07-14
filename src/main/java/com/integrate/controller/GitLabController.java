@@ -4,6 +4,7 @@ import com.integrate.pojo.gitlab.GitlabIssueAttributes;
 import com.integrate.response.ApiResponse;
 import com.integrate.service.GitLabIssueService;
 import com.integrate.service.openAi.OpenAiService;
+import org.gitlab4j.api.models.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,16 +40,16 @@ public class GitLabController {
         return ResponseEntity.status(HttpStatus.OK).body(gitLabResponse);
     }
 
-    @GetMapping("/fetchDescriptionFromGitlabTicket")
-    ResponseEntity fetchDescriptionFromGitlabTicket(@RequestParam("projectId") String projectId,@RequestParam("ticketId") String ticketId){
-        try {
-            String gitLabResponse = gitLabIssueService.fetchDescriptionFromGitlabTicket(projectId, ticketId);
-            return openAiService.generateJsonForTheGivenDescription(gitLabResponse);
-        }catch (Exception e){
-            e.printStackTrace();  // later We will use a log.error()
-            return ResponseEntity.ok(new ApiResponse("ERROR", 500,e.getMessage()));
-        }
-    }
+//    @GetMapping("/fetchDescriptionFromGitlabTicket")
+//    ResponseEntity fetchDescriptionFromGitlabTicket(@RequestParam("projectId") String projectId,@RequestParam("ticketId") String ticketId){
+//        try {
+//            Project gitLabResponse = gitLabIssueService.fetchDescriptionFromGitlabTicket(Long.valueOf(ticketId));
+//            return openAiService.generateJsonForTheGivenDescription(gitLabResponse.getDescription());
+//        }catch (Exception e){
+//            e.printStackTrace();  // later We will use a log.error()
+//            return ResponseEntity.ok(new ApiResponse("ERROR", 500,e.getMessage()));
+//        }
+//    }
 
     @PostMapping("/generateJsonForTheGivenDescription")
     public ResponseEntity generateJsonForTheGivenDescription(@RequestBody Map<String, String> request)  throws Exception{
