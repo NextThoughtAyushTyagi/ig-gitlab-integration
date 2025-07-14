@@ -1,4 +1,4 @@
-package com.integrate.service;
+package com.integrate.service.gitlab;
 
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;

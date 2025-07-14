@@ -1,4 +1,4 @@
-package com.integrate.service;
+package com.integrate.service.gitlab;
 
 import com.integrate.pojo.gitlab.GitlabIssueAttributes;
 import com.integrate.response.ApiResponse;

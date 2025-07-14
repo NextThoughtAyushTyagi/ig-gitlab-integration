@@ -26,5 +26,4 @@ public class IgGitLabIntegrationApplication {
 	public ChatClient openAiChatClient(OpenAiChatModel chatModel) {
 		return ChatClient.create(chatModel);
 	}
-
 }

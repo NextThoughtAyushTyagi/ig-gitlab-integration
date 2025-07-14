@@ -1,19 +1,6 @@
 spring:
   application:
     name: ig-gitlab-integration
-  prism:
-    api:
-      key: #place your prism self service key
-      base:
-        url:  https://prism-api.hinagro.com/gateway
-  chat:
-    gpt:
-      model: gpt-4o
-      system:
-        role:system
-      end:
-        user:
-          role: user
   ai:
     openai:
       base-url: https://prism-api.hinagro.com/gateway

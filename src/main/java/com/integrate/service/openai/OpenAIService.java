@@ -1,7 +1,7 @@
-package com.integrate.openAI;
+package com.integrate.service.openai;
 
 import com.integrate.response.ApiResponse;
-import com.integrate.service.GitLabIssueService;
+import com.integrate.service.gitlab.GitLabIssueService;
 import org.gitlab4j.api.GitLabApiException;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.openai.OpenAiChatOptions;
