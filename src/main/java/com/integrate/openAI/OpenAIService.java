@@ -1,28 +1,26 @@
 package com.integrate.openAI;
 
+import com.integrate.response.ApiResponse;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OpenAIService {
-    ChatClient.Builder chatClientBuilder;
-    OpenAIService(@Autowired ChatClient.Builder chatClientBuilder){
-        this.chatClientBuilder = chatClientBuilder;
-    }
 
-    public void openAIChatClient(){
+	ChatClient.Builder chatClientBuilder;
+
+	OpenAIService(@Autowired ChatClient.Builder chatClientBuilder){
+		this.chatClientBuilder = chatClientBuilder;
+	}
+
+	public ResponseEntity fetchJsonLogicViaOpenAI(String prompt) {
 		System.out.println("inside openAIChatClient --------- ");
-        ChatClient chatClient = chatClientBuilder.build();
-		pt_system_prompting_2_openAI(chatClient);
-    }
-
-
-
-	public void pt_system_prompting_2_openAI(ChatClient chatClient) {
+		ChatClient chatClient = chatClientBuilder.build();
 		OpenAiChatOptions openAiOptions = OpenAiChatOptions.builder()
 				.model("gpt-4o")
 				//.temperature(0.1)
@@ -32,8 +30,8 @@ public class OpenAIService {
 				.seed(42)                   // OpenAI-specific deterministic generation
 				.build();
 
-		String movieReview = chatClient
-				.prompt("The logic calculates the sum of 2 variables 'crp', 'baseRate' with 2.85 constant value")
+		String generatedJsonLogic = chatClient
+				.prompt(prompt)
 				.system("Generate a compact and standard JSON structure and ensure the JSON output uses compact logic without redundant keys/statements and follows jamsesso/json-logic-java & js-logic npm 2.0.2 package format compatible operators only")
 				.user("You are a JSON generator who generates executable JSON without any explanations, formatting, or additional characters such as newlines or spaces.Use only executable operators for example use 'if' instead of 'conditions', 'else' instead of 'then' as JSON logic requires proper compatible JSON with simple operators like if, else, switch-case, in etc")
 
@@ -41,7 +39,8 @@ public class OpenAIService {
 				.call()
 				.content();
 
-		System.out.println("Output: " + movieReview);
+		System.out.println("Output: " + generatedJsonLogic);
+		return ResponseEntity.ok(new ApiResponse("SUCCESS", 200, "Json Logic generated successfully", generatedJsonLogic));
 
 	}
 }

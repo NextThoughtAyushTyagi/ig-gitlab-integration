@@ -42,9 +42,19 @@ public class OpenAIController {
     }
 
 
-    @GetMapping("/callOpenAI")
-    public ResponseEntity<String> callOpenAI(){
-        openAIService.openAIChatClient();
-        return ResponseEntity.ok("OKAY");
+    @PostMapping("/fetchJsonLogicViaOpenAI")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity generateJsonForTheGivenDescription(@RequestBody Map<String, String> request)  throws Exception{
+        try {
+            String prompt = request.get("prompt");
+            if (prompt != null && !prompt.isBlank() && !prompt.isEmpty()) {
+                return openAIService.fetchJsonLogicViaOpenAI(prompt);
+            }else {
+                return ResponseEntity.ok(new ApiResponse("ERROR", 400, "Description should not be empty"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  // later We will use a log.error()
+            return ResponseEntity.ok(new ApiResponse("ERROR", 500,e.getMessage()));
+        }
     }
 }
