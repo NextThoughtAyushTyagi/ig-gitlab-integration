@@ -1,12 +1,9 @@
-package com.integrate.openAI;
+package com.integrate.service.openai;
 
 import com.integrate.response.ApiResponse;
-import com.integrate.service.GitLabIssueService;
+import com.integrate.service.gitlab.GitLabIssueService;
 import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.models.Issue;
-import org.gitlab4j.api.models.Project;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +19,8 @@ public class OpenAIService {
 	@Autowired
 	GitLabIssueService gitLabIssueService;
 
-	ChatClient.Builder chatClientBuilder;
-
-	OpenAIService(@Autowired ChatClient.Builder chatClientBuilder){
-		this.chatClientBuilder = chatClientBuilder;
-	}
+	@Autowired
+	ChatClient openAiChatClient;
 
 	public ResponseEntity fetchJsonLogicViaOpenAI(String ticketId, String prompt) throws GitLabApiException {
 		System.out.println("inside openAIChatClient --------- ");
@@ -38,7 +32,7 @@ public class OpenAIService {
 			}
 		}
 
-		ChatClient chatClient = chatClientBuilder.build();
+		ChatClient chatClient = openAiChatClient.mutate().build();
 		OpenAiChatOptions openAiOptions = OpenAiChatOptions.builder()
 				.model("gpt-4o")
 				//.temperature(0.1)

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: ig-gitlab-integration
+  ai:
+    openai:
+      base-url: https://prism-api.hinagro.com/gateway
+      api-key: sk-IIoEWQeGHTIQcfAdcHYCmw
+gitlab:
+  token: glpat-oDM78m7NYqHp5fwxB5Re
+  base-url: https://emu.hinagro.com/
