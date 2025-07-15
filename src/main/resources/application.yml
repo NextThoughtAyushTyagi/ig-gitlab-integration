@@ -6,5 +6,5 @@ spring:
       base-url: https://prism-api.hinagro.com/gateway
       api-key: sk-IIoEWQeGHTIQcfAdcHYCmw
 gitlab:
-  token: glpat-oDM78m7NYqHp5fwxB5Re
+  token: #Add Prism key here
   base-url: https://emu.hinagro.com/
