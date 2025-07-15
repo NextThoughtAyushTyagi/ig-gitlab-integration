@@ -4,7 +4,7 @@ spring:
   ai:
     openai:
       base-url: https://prism-api.hinagro.com/gateway
-      api-key: sk-IIoEWQeGHTIQcfAdcHYCmw
+      api-key: #Add Prism key here
 gitlab:
-  token: #Add Prism key here
+  token: #Add your Gitlab access token
   base-url: https://emu.hinagro.com/
