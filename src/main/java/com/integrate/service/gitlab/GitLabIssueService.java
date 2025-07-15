@@ -16,11 +16,11 @@ public class GitLabIssueService {
     @Autowired
     GitLabApi gitLabApi;
 
-    public String fetchDescriptionFromGitlabTicket (Long ticketId) throws GitLabApiException {
+    public String fetchDescriptionFromGitlabTicket(Long ticketId) throws GitLabApiException {
         IssuesApi issuesApi = gitLabApi.getIssuesApi();
-        Issue issue =issuesApi.getIssue("214", Long.valueOf(ticketId));
-        System.out.println("Issue => "+issue.getTitle());
-        System.out.println("Desc => "+issue.getDescription());
+        Issue issue = issuesApi.getIssue("214", Long.valueOf(ticketId));
+        System.out.println("Issue => " + issue.getTitle());
+        System.out.println("Desc => " + issue.getDescription());
         return issue.getDescription();
     }
 
