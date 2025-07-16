@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class OpenAIService {
@@ -28,10 +30,17 @@ public class OpenAIService {
 		if (!ticketId.isEmpty() && !ticketId.isBlank()) {
 			String issueDescription = gitLabIssueService.fetchDescriptionFromGitlabTicket(Long.valueOf(ticketId));
 			if (!issueDescription.isEmpty() && !issueDescription.isBlank()) {
-				prompt = issueDescription;
+				Pattern pattern = Pattern.compile("###(.*?)###");
+				Matcher matcher = pattern.matcher(issueDescription);
+				if (matcher.find()) {
+					issueDescription = matcher.group(1);  // Get the first capture group
+					prompt = issueDescription.trim();  // remove all the leading and trailing space
+					System.out.println("Extracted Prompt: " + prompt);
+				} else {
+					System.out.println("No match found.");
+				}
 			}
 		}
-
 		ChatClient chatClient = openAiChatClient.mutate().build();
 		OpenAiChatOptions openAiOptions = OpenAiChatOptions.builder()
 				.model("gpt-4o")
