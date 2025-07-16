@@ -4,7 +4,22 @@ spring:
   ai:
     openai:
       base-url: https://prism-api.hinagro.com/gateway
-      api-key: #Add your Prism key
+      api-key: sk-IIoEWQeGHTIQcfAdcHYCmw
+      embedding:
+        options:
+          model: text-embedding-3-small
+#    vectorstore:
+#      milvus:
+#        client:
+#          host: "localhost"
+#          port: 19530
+#          username: "root"
+#          password: "Milvus"
+#        databaseName: "default"
+#        collectionName: "vector_store"
+#        embeddingDimension: 1536
+#        indexType: IVF_FLAT
+#        metricType: COSINE
 gitlab:
-  token: #Add your Gitlab token
+  token: glpat-oDM78m7NYqHp5fwxB5Re
   base-url: https://emu.hinagro.com/

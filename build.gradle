@@ -32,6 +32,7 @@ dependencies {
 	implementation "org.springframework.ai:spring-ai-starter-mcp-server-webmvc:1.0.0"
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.gitlab4j:gitlab4j-api:6.0.0'
+	implementation 'org.springframework.ai:spring-ai-milvus-store:1.0.0'
 }
 
 /*tasks.named('test') {
